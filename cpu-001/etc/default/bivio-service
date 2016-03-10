@@ -1,4 +1,4 @@
-bivio_service_base_dir=/run
+bivio_service_base_dir=/var/lib
 bivio_service_channel=alpha
 rabbitmq_host=rabbitmq.cpu-001
 sirepo_db_dir=/var/db/sirepo
