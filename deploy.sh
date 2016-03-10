@@ -39,12 +39,13 @@ done
 # Install
 #
 git clone https://github.com/mrakitin/sirepo_config
+cd sirepo_config
 if ! service docker status >& /dev/null; then
     echo Installing Docker
-    . ../jessie-docker.sh
+    . ./jessie-docker.sh
 fi
 
-cd sirepo_config/cpu-001
+cd cpu-001
 tar cf - * | (cd /; tar xf -)
 . /etc/default/bivio-service
 . /etc/default/sirepo
