@@ -67,7 +67,7 @@ chown -R vagrant:vagrant "${dirs[@]}"
 #
 # Beaker
 #
-if [[  -f $sirepo_beaker_secret ]]; then
+if [[ ! -f $sirepo_beaker_secret ]]; then
     # Generate random secret
     echo "Generating: $sirepo_beaker_secret"
     python > "$sirepo_beaker_secret" <<'EOF'
@@ -107,5 +107,5 @@ rm -rf "$TMPDIR"
 
 cat <<'EOF'
 To restart services:
-for f in ${services[*]}; do service \$f update_and_restart; done
+for s in ${services[*]}; do service \$s update_and_restart; done
 EOF
