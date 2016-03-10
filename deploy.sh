@@ -48,7 +48,7 @@ if ! service docker status >& /dev/null; then
 fi
 
 cd cpu-001
-tar cf - * | (cd /; tar xf -)
+rsync -r * /
 . /etc/default/bivio-service
 . /etc/default/sirepo
 
