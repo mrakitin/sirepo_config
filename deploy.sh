@@ -68,7 +68,7 @@ for s in rabbitmq celery-sirepo sirepo; do
     if ! systemctl status "$s" >& /dev/null; then
         systemctl enable "$s"
     fi
-    service restart "$s"
+    service "$s" restart
 done
 
 cd "$prev_dir"
