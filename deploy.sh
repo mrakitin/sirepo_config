@@ -23,30 +23,31 @@ mkdir -p "$TMPDIR"
 cd "$TMPDIR"
 
 #
-# Run user
+# Prerequisites
 #
 if ! id vagrant >& /dev/null; then
     echo Adding user vagrant
     useradd vagrant
 fi
+for f in git nginx; do
+    if ! dpkg -s "$f" >& /dev/null; then
+        apt-get -y install "$f"
+    fi
+done
 
 #
 # Install
 #
-if [[ $(type -t git) == '' ]]; then
-    apt-get -y install git
-fi
-
 git clone https://github.com/mrakitin/sirepo_config
-cd sirepo_config/cpu-001
-tar cf - * | (cd /; tar xf -)
-. /etc/default/bivio-service
-. /etc/default/sirepo
-
 if ! service docker status >& /dev/null; then
     echo Installing Docker
     . ../jessie-docker.sh
 fi
+
+cd sirepo_config/cpu-001
+tar cf - * | (cd /; tar xf -)
+. /etc/default/bivio-service
+. /etc/default/sirepo
 
 #
 # Permissions
@@ -80,15 +81,6 @@ fi
 #
 # Nginx
 #
-if [[ $(type -t nginx) == '' ]]; then
-    # Avoid a duplicate default server for 0.0.0.0:80 in /etc/nginx/sites-enabled/sirepo.conf:2
-    # when installing nginx the first time
-    rm -rf /etc/nginx/sites-enabled-tmp
-    mv /etc/nginx/sites-enabled /etc/nginx/sites-enabled-tmp
-    apt-get -y install nginx
-    mv /etc/nginx/sites-enabled-tmp/* /etc/nginx/sites-enabled
-    rmdir /etc/nginx/sites-enabled-tmp
-fi
 rm -f /etc/nginx/sites-enabled/default
 x=/var/www/empty
 if [[ ! -d $x ]]; then
