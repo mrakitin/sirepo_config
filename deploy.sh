@@ -30,14 +30,6 @@ chown -R vagrant:vagrant "$sirepo_db_dir" "$bivio_service_base_dir"/{celery-sire
 chmod u+x /etc/init.d/{celery-sirepo,sirepo,rabbitmq}
 
 #
-# Verify /etc/hosts
-#
-if ! grep "$rabbitmq_host" /etc/hosts >& /dev/null; then
-    echo "You need to add $rabbitmq_host to /etc/hosts" 1>&2
-    exit 1
-fi
-
-#
 # Beaker
 #
 if [[ ! -f $sirepo_beaker_secret ]]; then
@@ -64,6 +56,7 @@ fi
 #
 # Services
 #
+systemctl daemon-reload
 for s in rabbitmq celery-sirepo sirepo nginx; do
     if ! systemctl status "$s" >& /dev/null; then
         systemctl enable "$s"

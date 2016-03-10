@@ -93,7 +93,7 @@ EOF
         for v in "${bivio_service_exports[@]}"; do
             echo "export '$v'"
         done
-        echo 'echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) '"${bivio_service_exec_cmd[@]}"'" > init.log'
+        echo 'echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) '"${bivio_service_exec_cmd[@]}"'" >> init.log'
         echo 'env >> init.log'
         if [[ $(type -t bivio_service_script_pre_exec) ]]; then
             bivio_service_script_pre_exec
@@ -149,7 +149,9 @@ restart() {
 
 start() {
     bivio_service_host_init_log="$bivio_service_host_dir/init.log"
-    rm -f "$bivio_service_host_init_log"
+    cat /dev/null > "$bivio_service_host_init_log"
+    chown "$bivio_service_host_user:$bivio_service_host_user" "$bivio_service_host_init_log"
+
     trap bivio_service_start_failure EXIT
     set -e
     log_daemon_msg "Starting $bivio_service_name" "$bivio_service_name" || true
@@ -168,6 +170,7 @@ start() {
         "$bivio_service_image:$bivio_service_channel"
         bash -c "${su_cmd[*]}"
     )
+    echo "Start: ${bivio_service_docker_cmd[*]}" >> "$bivio_service_host_init_log"
     # Ignore container id output
     "${bivio_service_docker_cmd[@]}" > /dev/null
     # Simple attempt to catch startup errors
