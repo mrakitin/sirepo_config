@@ -24,10 +24,9 @@ fi
 #
 git clone https://github.com/mrakitin/sirepo_config
 cd sirepo_config/cpu-001
-rsync -a --exclude=.git * /
-chown -R vagrant:vagrant /var/db/sirepo /var/lib/{celery-sirepo,sirepo,rabbitmq}
-
 . /etc/default/bivio-service
+rsync -a --exclude=.git * /
+chown -R vagrant:vagrant "$sirepo_db_dir" "$bivio_service_base_dir"/{celery-sirepo,sirepo,rabbitmq}
 
 #
 # Verify /etc/hosts

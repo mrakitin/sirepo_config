@@ -1,5 +1,6 @@
+bivio_service_base_dir=/run
 bivio_service_channel=alpha
 rabbitmq_host=rabbitmq.cpu-001
-sirepo_port=7000
 sirepo_db_dir=/var/db/sirepo
-sirepo_beaker_secret=/var/db/sirepo/beaker_secret
+sirepo_beaker_secret=$sirepo_db_dir/beaker_secret
+sirepo_port=7000
