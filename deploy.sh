@@ -49,7 +49,7 @@ chmod u+x /etc/init.d/{celery-sirepo,sirepo,rabbitmq}
 #
 # Beaker
 #
-if [[ ! -f $sirepo_beaker_secret ]]; then
+if [[  -f $sirepo_beaker_secret ]]; then
     # Generate random secret
     echo "Generating: $sirepo_beaker_secret"
     python > "$sirepo_beaker_secret" <<'EOF'
@@ -65,7 +65,7 @@ fi
 #
 # Nginx
 #
-if [[ ($type -t nginx) == '' ]]; then
+if [[ $(type -t nginx) == '' ]]; then
     apt-get -y install nginx
 fi
 rm -f /etc/nginx/sites-enabled/default
