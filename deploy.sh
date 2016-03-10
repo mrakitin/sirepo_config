@@ -56,13 +56,12 @@ tar cf - * | (cd /; tar xf -)
 # Permissions
 #
 services=( rabbitmq celery-sirepo sirepo )
-dirs=( $sirepo_db_dir )
-mkdir -p "$sirepo_db_dir/beaker"
-for f in "${services[@]}"; do
+dirs=( $sirepo_db_dir $sirepo_db_dir/beaker )
+for s in "${services[@]}"; do
     chmod u+x /etc/init.d/"$s"
-    mkdir -p "$bivio_service_base_dir/$s"
     dirs+=( "$bivio_service_base_dir/$s" )
 done
+mkdir -p "${dirs[@]}"
 chown -R vagrant:vagrant "${dirs[@]}"
 
 #
