@@ -26,7 +26,9 @@ git clone https://github.com/mrakitin/sirepo_config
 cd sirepo_config/cpu-001
 . /etc/default/bivio-service
 rsync -a * /
-chown -R vagrant:vagrant "$sirepo_db_dir" "$bivio_service_base_dir"/{celery-sirepo,sirepo,rabbitmq}
+services={celery-sirepo,sirepo,rabbitmq}
+chown -R vagrant:vagrant "$sirepo_db_dir" "$bivio_service_base_dir"/$services
+chmod u+x /etc/init.d/$services
 
 #
 # Verify /etc/hosts
@@ -63,7 +65,7 @@ fi
 #
 # Services
 #
-for s in rabbitmq celery-sirepo sirepo; do
+for s in $services; do
     if ! systemctl status "$s" >& /dev/null; then
         systemctl enable "$s"
     fi
