@@ -1,12 +1,16 @@
 #!/bin/bash
 #
-# To run: curl -L https://raw.githubusercontent.com/mrakitin/sirepo_config/master/deploy.sh | bash -x
+# To run: curl -L https://raw.githubusercontent.com/mrakitin/sirepo_config/master/deploy.sh | bash
 #
 set -e
 
 #
-# Version
+# Assertions
 #
+if (( $UID != 0 )); then
+    echo 'Must run as root' 1>&2
+    exit 1
+fi
 if ! grep '^8\.' /etc/debian_version >& /dev/null; then
     echo 'Incorrect debian version (not 8.x) or not Debian' 1>&2
     exit 1
@@ -77,7 +81,13 @@ fi
 # Nginx
 #
 if [[ $(type -t nginx) == '' ]]; then
+    # Avoid a duplicate default server for 0.0.0.0:80 in /etc/nginx/sites-enabled/sirepo.conf:2
+    # when installing nginx the first time
+    rm -rf /etc/nginx/sites-enabled-tmp
+    mv /etc/nginx/sites-enabled /etc/nginx/sites-enabled-tmp
     apt-get -y install nginx
+    mv /etc/nginx/sites-enabled-tmp/* /etc/nginx/sites-enabled
+    rmdir /etc/nginx/sites-enabled-tmp
 fi
 rm -f /etc/nginx/sites-enabled/default
 x=/var/www/empty
