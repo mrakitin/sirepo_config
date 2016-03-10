@@ -52,6 +52,11 @@ x=/etc/nginx/sites-enabled/default
 if [[ -f $x ]]; then
     mv "$x" "$x-dist"
 fi
+x=/var/www/empty
+if [[ ! -d $x ]]; then
+    mkdir "$x"
+    chmod 555 "$x"
+fi
 
 #
 # Services
