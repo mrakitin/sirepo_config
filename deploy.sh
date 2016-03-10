@@ -12,7 +12,7 @@ if ! service docker status >& /dev/null; then
 fi
 
 #
-# Vagrant user
+# Run user
 #
 if ! id vagrant >& /dev/null; then
     echo Adding user vagrant
@@ -20,7 +20,7 @@ if ! id vagrant >& /dev/null; then
 fi
 
 #
-# Install files
+# Install
 #
 git clone https://github.com/mrakitin/sirepo_config
 cd sirepo_config/cpu-001
@@ -46,12 +46,9 @@ EOF
 fi
 
 #
-# move out dist sites-enabled, we use conf.d
+# Nginx
 #
-x=/etc/nginx/sites-enabled/default
-if [[ -f $x ]]; then
-    mv "$x" "$x-dist"
-fi
+rm -f /etc/nginx/sites-enabled/default
 x=/var/www/empty
 if [[ ! -d $x ]]; then
     mkdir "$x"
