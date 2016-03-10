@@ -65,6 +65,9 @@ fi
 #
 # Nginx
 #
+if [[ ($type -t nginx) == '' ]]; then
+    apt-get -y install nginx
+fi
 rm -f /etc/nginx/sites-enabled/default
 x=/var/www/empty
 if [[ ! -d $x ]]; then
