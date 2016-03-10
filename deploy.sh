@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# To run: curl -L https://raw.githubusercontent.com/mrakitin/sirepo_config/master/deploy.sh | bash -x
+#
 set -e
 
 #
@@ -44,7 +47,7 @@ fi
 #
 # Permissions
 #
-services=rabbitmq celery-sirepo sirepo
+services=( rabbitmq celery-sirepo sirepo )
 dirs=( $sirepo_db_dir )
 mkdir -p "$sirepo_db_dir/beaker"
 for f in "${services[@]}"; do
@@ -97,3 +100,8 @@ done
 
 cd "$prev_dir"
 rm -rf "$TMPDIR"
+
+cat <<'EOF'
+To restart services:
+for f in ${services[*]}; do service \$f update_and_restart; done
+EOF
