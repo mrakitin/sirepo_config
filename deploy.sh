@@ -2,7 +2,8 @@
 set -e
 prev_dir=$PWD
 export TMPDIR=/var/tmp/sirepo_config-$$-$RANDOM
-cd $TMPDIR
+mkdir -p "$TMPDIR"
+cd "$TMPDIR"
 umask 027
 
 if ! service docker status >& /dev/null; then
