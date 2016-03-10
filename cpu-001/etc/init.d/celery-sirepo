@@ -1,19 +1,12 @@
 #!/bin/bash
-#
-# chkconfig: 2345 95 5
-# description: Celery worker daemon for sirepo
-#
 
 ### BEGIN INIT INFO
 # Provides: celery-sirepo
 # Required-Start: rabbitmq
 # Required-Stop: rabbitmq
-# Should-Start:
-# Should-Stop:
 # Default-Start: 2 3 4 5
 # Default-Stop:  0 1 6
 # Short-Description: Celery
-# Description: Celery worker daemon for sirepo
 ### END INIT INFO
 
 bivio_service_name=celery-sirepo

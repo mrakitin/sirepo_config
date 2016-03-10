@@ -64,7 +64,7 @@ fi
 #
 # Services
 #
-for s in celery-sirepo sirepo rabbitmq; do
+for s in rabbitmq celery-sirepo sirepo; do
     if ! systemctl status "$s" >& /dev/null; then
         systemctl enable "$s"
     fi

@@ -1,19 +1,12 @@
 #!/bin/bash
-#
-# chkconfig: 2345 84 16
-# description: AMQP service provided by RabbitMQ
-#
 
 ### BEGIN INIT INFO
 # Provides: rabbitmq
 # Required-Start: $docker $remote_fs $network
 # Required-Stop: $docker $remote_fs $network
-# Should-Start:
-# Should-Stop:
 # Default-Start: 2 3 4 5
 # Default-Stop:  0 1 6
 # Short-Description: AMQP service provided by RabbitMQ
-# Description: Daemon for rabbitmq
 ### END INIT INFO
 
 bivio_service_name=rabbitmq
