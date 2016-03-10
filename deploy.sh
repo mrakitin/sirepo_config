@@ -29,10 +29,11 @@ fi
 if [[ $(type -t git) == '' ]]; then
     apt-get -y install git
 fi
+
 git clone https://github.com/mrakitin/sirepo_config
 cd sirepo_config/cpu-001
-. /etc/default/bivio-service
 rsync -a * /
+. /etc/default/bivio-service
 
 if ! service docker status >& /dev/null; then
     echo Installing Docker
