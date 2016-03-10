@@ -31,6 +31,8 @@ if ! id vagrant >& /dev/null; then
 fi
 for f in git nginx; do
     if ! dpkg -s "$f" >& /dev/null; then
+        # Work around an nginx install problem
+        rm -f /etc/nginx/sites-enabled/sirepo.conf
         apt-get -y install "$f"
     fi
 done
