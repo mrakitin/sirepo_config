@@ -34,6 +34,7 @@ git clone https://github.com/mrakitin/sirepo_config
 cd sirepo_config/cpu-001
 rsync -a * /
 . /etc/default/bivio-service
+. /etc/default/sirepo
 
 if ! service docker status >& /dev/null; then
     echo Installing Docker
@@ -78,6 +79,7 @@ fi
 #
 # Services
 #
+docker pull "$bivio_service_image:$bivio_service_channel"
 systemctl daemon-reload
 for s in rabbitmq celery-sirepo sirepo nginx; do
     if ! systemctl status "$s" >& /dev/null; then
