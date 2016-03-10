@@ -1,6 +1,6 @@
 #!/bin/bash
-apt-get -y purge 'lxc-docker*'
-apt-get -y purge 'docker.io*'
+apt-get -y purge 'lxc-docker*' || true
+apt-get -y purge 'docker.io*' || true
 apt-get -y update
 apt-get -y install apt-transport-https ca-certificates
 apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
