@@ -1,2 +1,2 @@
 # sirepo_config
-Configuration os Sirepo for production
+Configuration of Sirepo for production
