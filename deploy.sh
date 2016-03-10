@@ -1,15 +1,19 @@
 #!/bin/bash
 set -e
-prev_dir=$PWD
-export TMPDIR=/var/tmp/sirepo_config-$$-$RANDOM
-mkdir -p "$TMPDIR"
-cd "$TMPDIR"
-umask 027
 
-if ! service docker status >& /dev/null; then
-    echo 'docker not running, please install and start' 1>&2
+#
+# Version
+#
+if ! grep '^8\.' /etc/debian_version >& /dev/null; then
+    echo 'Incorrect debian version (not 8.x) or not Debian' 1>&2
     exit 1
 fi
+
+prev_dir=$PWD
+export TMPDIR=/var/tmp/sirepo_config-$$-$RANDOM
+umask 027
+mkdir -p "$TMPDIR"
+cd "$TMPDIR"
 
 #
 # Run user
@@ -26,6 +30,15 @@ git clone https://github.com/mrakitin/sirepo_config
 cd sirepo_config/cpu-001
 . /etc/default/bivio-service
 rsync -a * /
+
+if ! service docker status >& /dev/null; then
+    echo Installing Docker
+    . ../jessie-docker.sh
+fi
+
+#
+# Permissions
+#
 chown -R vagrant:vagrant "$sirepo_db_dir" "$bivio_service_base_dir"/{celery-sirepo,sirepo,rabbitmq}
 chmod u+x /etc/init.d/{celery-sirepo,sirepo,rabbitmq}
 
